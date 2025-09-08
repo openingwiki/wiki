@@ -1,32 +1,42 @@
 package config
 
 import (
-    "log"
-    "os"
+	"log"
+	"os"
 
-    "github.com/joho/godotenv"
+	"github.com/joho/godotenv"
 )
 
 type Config struct {
-    DatabaseURL string
-    HTTPAddr    string
+	DatabaseURL string
+	HTTPAddr    string
 }
 
-func Load() Config {
-    _ = godotenv.Load()
-    cfg := Config{
-        DatabaseURL: os.Getenv("DATABASE_URL"),
-        HTTPAddr:    getenv("HTTP_ADDR", ":8080"),
-    }
-    if cfg.DatabaseURL == "" {
-        log.Println("warning: DATABASE_URL is empty; use in-memory repo or set env")
-    }
-    return cfg
+func Load() *Config {
+	loadDotEnv()
+
+	cfg := &Config{
+		DatabaseURL: getEnv("DATABASE_URL", ""),
+		HTTPAddr:    getEnv("HTTP_ADDR", ":8080"),
+	}
+
+	if cfg.DatabaseURL == "" {
+		log.Println("warning: DATABASE_URL is empty; using in-memory repository or set env")
+	}
+
+	return cfg
 }
 
-func getenv(key, def string) string {
-    if v := os.Getenv(key); v != "" { return v }
-    return def
+func loadDotEnv() {
+	if err := godotenv.Load(); err != nil {
+		// No .env file is fine, just skip
+		log.Println("info: no .env file found, relying on environment variables")
+	}
 }
 
-
+func getEnv(key, def string) string {
+	if value := os.Getenv(key); value != "" {
+		return value
+	}
+	return def
+}

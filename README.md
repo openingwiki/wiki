@@ -1,29 +1,28 @@
-# wiki
-Wiki service. Responsible for storing opening, ending, etc.
+## Makefile
 
-## Endpoints
+This project uses a `Makefile` to simplify common tasks like linting, testing, building, running, and applying migrations.
 
-- POST `/api/v1/anime` {"title": string}
-- GET `/api/v1/anime/{id}`
-- POST `/api/v1/singers` {"name": string}
-- GET `/api/v1/singers/{id}`
-- POST `/api/v1/openings` {"anime_id": int, "singer_id": int, "type": opening|ending|ost, "title": string, "order_number": int}
-- GET `/api/v1/openings/{id}`
+### Common commands
 
-## Run
+| Command        | Description                                      |
+|----------------|--------------------------------------------------|
+| `make lint`    | Runs Go linter (`golangci-lint`)               |
+| `make test`    | Runs all Go tests                               |
+| `make migrate` | Applies database migrations via `scripts/migrate-up` |
 
-Install Go (1.25.1+) and run:
+### Example usage
 
 ```bash
-go mod tidy
-go run ./cmd/server
+# Run linter
+make linter
+
+# Run tests
+make test
+
+# Apply migrations
+make migrate
 ```
 
-## Make targets
+### How to run?
 
-```bash
-make tidy   # go mod tidy
-make test   # run unit tests with race detector
-make lint   # run golangci-lint
-make ci     # tidy + lint + test
-```
+Create your `.env` according to `.env.example` file and create postgresql instance

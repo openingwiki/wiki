@@ -1,24 +1,28 @@
-GOCMD?=go
-GOTEST?=$(GOCMD) test
-GOMOD?=$(GOCMD) mod
-GOLANGCI?=golangci-lint
-DB_URL?=$(DATABASE_URL)
+# === Configuration ===
 
-.PHONY: tidy test lint ci migrate
+# Tools
+GOLANGCI_LINT := golangci-lint
 
-tidy:
-	$(GOMOD) tidy
+# Scripts
+MIGRATE_UP_SCRIPT := scripts/migrate-up.sh
 
+# === Phony targets ===
+.PHONY: all lint test migrate
+
+# Default target
+all: lint test
+
+# === Linting ===
+lint:
+	@echo "Running linters..."
+	$(GOLANGCI_LINT) run ./...
+
+# === Tests ===
 test:
-	$(GOTEST) ./... -race -count=1
+	@echo "Running tests..."
+	go test -v ./...
 
-lint: tidy
-	$(GOLANGCI) run
-
-ci: tidy lint test
-
+# === Migrations ===
 migrate:
-	@echo "Apply migrations (requires psql)"
-	psql "$(DB_URL)" -f migrations/0001_init.sql
-
-
+	@echo "Applying migrations..."
+	@$(MIGRATE_UP_SCRIPT)

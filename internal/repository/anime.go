@@ -1,0 +1,44 @@
+package repository
+
+import (
+	"context"
+	"time"
+
+	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/openingwiki/wiki/internal/model"
+)
+
+type AnimeRepository interface {
+	CreateAnime(ctx context.Context, title string) (*model.Anime, error)
+}
+
+type PostgresAnimeRepository struct {
+	pool *pgxpool.Pool
+}
+
+func NewPostgresAnimeRepository(pool *pgxpool.Pool) *PostgresAnimeRepository {
+	return &PostgresAnimeRepository{pool: pool}
+}
+
+func (r *PostgresAnimeRepository) CreateAnime(ctx context.Context, title string) (*model.Anime, error) {
+	const query = `
+		INSERT INTO anime (title, created_at) 
+		VALUES ($1, NOW()) 
+		RETURNING id, created_at
+	`
+
+	var (
+		id      int64
+		created time.Time
+	)
+
+	if err := r.pool.QueryRow(ctx, query, title).Scan(&id, &created); err != nil {
+		return nil, err
+	}
+
+	return &model.Anime{
+		ID:        id,
+		Title:     title,
+		CreatedAt: created,
+	}, nil
+}

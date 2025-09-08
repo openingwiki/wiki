@@ -1,18 +1,16 @@
 package api
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 	"github.com/openingwiki/wiki/internal/service"
 )
 
-// Router composes all domain routes under /api/v1 using gin
-func Router(s *service.Service) http.Handler {
-	r := gin.New()
-	api := r.Group("/api/v1")
-	RegisterAnimeRoutes(api, s)
-	RegisterSingerRoutes(api, s)
-	RegisterOpeningRoutes(api, s)
-	return r
+// NewRouter registers all API routes under /api/v1
+func NewRouter(
+	r *gin.Engine,
+	animeService *service.AnimeService,
+) {
+	v1 := r.Group("/api/v1")
+
+	NewAnimeHandler(animeService).Register(v1)
 }
