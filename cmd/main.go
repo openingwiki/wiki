@@ -41,11 +41,12 @@ func main() {
 	// Initialize repository and service
 	animeRepo := repository.NewPostgresAnimeRepository(pool)
 	animeService := service.NewAnimeService(animeRepo)
+	openingRepo := repository.NewPostgresOpeningRepository(pool)
+	openingService := service.NewOpeningService(openingRepo)
 
 	// Initialize Gin and register routes
 	r := gin.Default()
-	api.NewRouter(r, animeService)
-
+	api.NewRouter(r, animeService, openingService)
 	// Start server
 	log.Printf("Starting server on %s...", cfg.HTTPAddr)
 	if err := r.Run(cfg.HTTPAddr); err != nil {
