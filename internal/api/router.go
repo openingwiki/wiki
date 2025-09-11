@@ -9,8 +9,9 @@ import (
 func NewRouter(
 	r *gin.Engine,
 	animeService *service.AnimeService,
+	openingService *service.OpeningService,
 ) {
 	v1 := r.Group("/api/v1")
-
 	NewAnimeHandler(animeService).Register(v1)
+	NewOpeningHandler(openingService).Register(v1)
 }
