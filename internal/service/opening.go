@@ -27,3 +27,11 @@ func (s *OpeningService) CreateOpening(ctx context.Context,
 ) (*model.Opening, error) {
 	return s.repo.CreateOpening(ctx, animeID, singerID, openingType, title, orderNumber)
 }
+
+func (s *OpeningService) GetOpeningByID(ctx context.Context, id int64) (*model.Opening, error) {
+	opening, error := s.repo.GetOpeningByID(ctx, id)
+	if error != nil {
+		return nil, error
+	}
+	return opening, nil
+}
