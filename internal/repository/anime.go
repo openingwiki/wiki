@@ -58,9 +58,9 @@ func (r *PostgresAnimeRepository) GetAnime(ctx context.Context, id int64) (*mode
 
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
-			return nil, fmt.Errorf("opening with id %d not found", id)
+			return nil, fmt.Errorf("%w: anime with id %d not found", ErrNotFound, id)
 		}
-		return nil, fmt.Errorf("get opening by id %d: %w", id, err)
+		return nil, fmt.Errorf("get anime by id %d: %w", id, err)
 	}
 
 	return &anime, nil

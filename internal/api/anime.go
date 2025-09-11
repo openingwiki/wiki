@@ -1,13 +1,13 @@
 package api
 
 import (
-	"database/sql"
 	"errors"
 	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/openingwiki/wiki/internal/api/formatter"
+	"github.com/openingwiki/wiki/internal/repository"
 	"github.com/openingwiki/wiki/internal/service"
 )
 
@@ -77,8 +77,9 @@ func (h *AnimeHandler) getAnime(c *gin.Context) {
 
 	anime, err := h.service.GetAnime(c.Request.Context(), id)
 	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
+		if errors.Is(err, repository.ErrNotFound) {
 			c.JSON(http.StatusNotFound, gin.H{"error": "Anime not found"})
+			return
 		}
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
