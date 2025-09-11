@@ -1,5 +1,5 @@
 BEGIN;
 
-DROP TABLE opening;
+DROP TABLE openings;
 
 END;

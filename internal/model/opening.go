@@ -2,13 +2,6 @@ package model
 
 import "time"
 
-type OpeningType string
-
-const (
-	TypeOpening OpeningType = "opening"
-	TypeEnding  OpeningType = "ending"
-)
-
 type Opening struct {
 	ID          int64
 	AnimeId     int64

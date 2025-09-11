@@ -13,7 +13,6 @@ type CreateOpeningRequest struct {
 	Type        model.OpeningType `json:"type" binding:"required"`
 	Title       string            `json:"title"`
 	OrderNumber int64             `json:"order_number"`
-	CreatedAt   time.Time
 }
 
 type OpeningResponse struct {
@@ -23,7 +22,7 @@ type OpeningResponse struct {
 	Type        model.OpeningType `json:"type" binding:"required"`
 	Title       string            `json:"title"`
 	OrderNumber int64             `json:"order_number"`
-	CreatedAt   time.Time
+	CreatedAt   time.Time         `json:"created_at"`
 }
 
 func CreateOpeningResponseFromDomain(m *model.Opening) *OpeningResponse {
@@ -36,5 +35,4 @@ func CreateOpeningResponseFromDomain(m *model.Opening) *OpeningResponse {
 		OrderNumber: m.OrderNumber,
 		CreatedAt:   m.CreatedAt,
 	}
-
 }

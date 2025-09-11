@@ -27,6 +27,7 @@ type PostgresOpeningRepository struct {
 func NewPostgresOpeningRepository(pool *pgxpool.Pool) *PostgresOpeningRepository {
 	return &PostgresOpeningRepository{pool: pool}
 }
+
 func (r *PostgresOpeningRepository) CreateOpening(
 	ctx context.Context,
 	animeID int64,
@@ -36,7 +37,7 @@ func (r *PostgresOpeningRepository) CreateOpening(
 	orderNumber int64,
 ) (*model.Opening, error) {
 	const query = `
-        INSERT INTO opening (anime_id, singer_id, type, title, order_number, created_at)
+        INSERT INTO openings (anime_id, singer_id, type, title, order_number, created_at)
         VALUES ($1, $2, $3, $4, $5, NOW())
         RETURNING id, anime_id, singer_id, type, title, order_number, created_at
     `
@@ -54,8 +55,8 @@ func (r *PostgresOpeningRepository) CreateOpening(
 	err := r.pool.QueryRow(
 		ctx,
 		query,
-		animeID,  // Используем переданные параметры
-		singerID, // а не неинициализированные переменные
+		animeID,
+		singerID,
 		openingType,
 		title,
 		orderNumber,
@@ -68,7 +69,6 @@ func (r *PostgresOpeningRepository) CreateOpening(
 		&oOrder,
 		&createdAt,
 	)
-
 	if err != nil {
 		return nil, fmt.Errorf("failed to create opening: %w", err)
 	}

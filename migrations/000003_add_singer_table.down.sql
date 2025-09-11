@@ -1,5 +1,5 @@
 BEGIN;
 
-DROP TABLE singer;
+DROP TABLE singers;
 
 END;
