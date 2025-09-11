@@ -18,6 +18,7 @@ func NewAnimeHandler(s *service.AnimeService) *AnimeHandler {
 
 func (h *AnimeHandler) Register(r *gin.RouterGroup) {
 	r.POST("/anime", h.createAnime)
+	r.GET("/anime", h.getAnime)
 }
 
 func (h *AnimeHandler) createAnime(c *gin.Context) {
@@ -34,4 +35,22 @@ func (h *AnimeHandler) createAnime(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, formatter.NewAnimeResponseFromDomain(anime))
+}
+
+func (h *AnimeHandler) getAnime(c *gin.Context) {
+	var req formatter.AnimeResponse
+
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	anime, err := h.service.GetAnime(c.Request.Context(), req.ID)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, formatter.NewAnimeResponseFromDomain(anime))
 }

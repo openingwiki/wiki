@@ -10,6 +10,7 @@ import (
 
 type AnimeRepository interface {
 	CreateAnime(ctx context.Context, title string) (*model.Anime, error)
+	GetAnime(ctx context.Context, id int64) (*model.Anime, error)
 }
 
 type PostgresAnimeRepository struct {
@@ -41,4 +42,18 @@ func (r *PostgresAnimeRepository) CreateAnime(ctx context.Context, title string)
 		Title:     title,
 		CreatedAt: created,
 	}, nil
+}
+
+func (r *PostgresAnimeRepository) GetAnime(ctx context.Context, id int64) (*model.Anime, error) {
+	const query = `
+		SELECT * FROM anime WHERE ID = $1
+	`
+
+	var anime model.Anime
+	if err := r.pool.QueryRow(ctx, query, id).Scan(&anime.ID, &anime.Title, &anime.CreatedAt); err != nil {
+		return nil, err
+	}
+
+	return &anime, nil
+
 }

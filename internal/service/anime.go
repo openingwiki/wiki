@@ -23,3 +23,7 @@ func NewAnimeService(repo repository.AnimeRepository) *AnimeService {
 func (s *AnimeService) CreateAnime(ctx context.Context, title string) (*model.Anime, error) {
 	return s.repo.CreateAnime(ctx, title)
 }
+
+func (s *AnimeService) GetAnime(ctx context.Context, id int64) (*model.Anime, error) {
+	return s.repo.GetAnime(ctx, id)
+}
