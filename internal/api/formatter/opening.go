@@ -1,9 +1,8 @@
 package formatter
 
 import (
-	"time"
-
 	"github.com/openingwiki/wiki/internal/model"
+	"time"
 )
 
 type CreateOpeningRequest struct {

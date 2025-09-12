@@ -12,7 +12,3 @@ type Opening struct {
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 }
-
-func (o *Opening) GetAll() Opening {
-	return *o
-}

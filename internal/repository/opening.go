@@ -4,11 +4,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"time"
-
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/openingwiki/wiki/internal/model"
+	"time"
 )
 
 type OpeningRepository interface {
@@ -20,6 +19,7 @@ type OpeningRepository interface {
 		title string,
 		orderNumber int64,
 	) (*model.Opening, error)
+
 	GetOpeningByID(ctx context.Context, openingID int64) (*model.Opening, error)
 }
 
@@ -39,6 +39,7 @@ func (r *PostgresOpeningRepository) CreateOpening(
 	title string,
 	orderNumber int64,
 ) (*model.Opening, error) {
+
 	const query = `
         INSERT INTO openings (anime_id, singer_id, type, title, order_number, created_at)
         VALUES ($1, $2, $3, $4, $5, NOW())
@@ -86,7 +87,9 @@ func (r *PostgresOpeningRepository) CreateOpening(
 		CreatedAt:   createdAt,
 	}, nil
 }
+
 func (r *PostgresOpeningRepository) GetOpeningByID(ctx context.Context, id int64) (*model.Opening, error) {
+
 	const query = `
         SELECT id, anime_id, singer_id, type, title, order_number, created_at
         FROM openings 
