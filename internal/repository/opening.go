@@ -40,7 +40,6 @@ func (r *PostgresOpeningRepository) CreateOpening(
 	title string,
 	orderNumber int64,
 ) (*model.Opening, error) {
-
 	const query = `
         INSERT INTO openings (anime_id, singer_id, type, title, order_number, created_at)
         VALUES ($1, $2, $3, $4, $5, NOW())
@@ -90,7 +89,6 @@ func (r *PostgresOpeningRepository) CreateOpening(
 }
 
 func (r *PostgresOpeningRepository) GetOpeningByID(ctx context.Context, id int64) (*model.Opening, error) {
-
 	const query = `
         SELECT id, anime_id, singer_id, type, title, order_number, created_at
         FROM openings 
@@ -119,7 +117,6 @@ func (r *PostgresOpeningRepository) GetOpeningByID(ctx context.Context, id int64
 		&oOrder,
 		&createdAt,
 	)
-
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
 			return nil, fmt.Errorf("opening with id %d not found", id)
