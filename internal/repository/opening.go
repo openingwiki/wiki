@@ -20,7 +20,6 @@ type OpeningRepository interface {
 		title string,
 		orderNumber int64,
 	) (*model.Opening, error)
-
 	GetOpeningByID(ctx context.Context, openingID int64) (*model.Opening, error)
 }
 
@@ -119,9 +118,9 @@ func (r *PostgresOpeningRepository) GetOpeningByID(ctx context.Context, id int64
 	)
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
-			return nil, fmt.Errorf("opening with id %d not found", id)
+			return nil, fmt.Errorf("Opening with id %d not found", id)
 		}
-		return nil, fmt.Errorf("failed to get opening by id %d: %w", id, err)
+		return nil, fmt.Errorf("Failed to get opening by id %d: %w", id, err)
 	}
 
 	return &model.Opening{

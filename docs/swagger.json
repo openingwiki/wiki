@@ -1,0 +1,281 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Swagger OpeningWiki",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {},
+        "license": {
+            "name": "MIT LICENSE",
+            "url": "https://github.com/openingwiki/wiki/blob/main/LICENSE"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/api/v1",
+    "paths": {
+        "/anime": {
+            "post": {
+                "description": "Add a new anime to the database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "anime"
+                ],
+                "summary": "Create a new anime",
+                "parameters": [
+                    {
+                        "description": "Anime creation data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/formatter.CreateAnimeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successfully created anime",
+                        "schema": {
+                            "$ref": "#/definitions/formatter.AnimeResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/openings": {
+            "post": {
+                "description": "Add a new anime opening theme to the database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "openings"
+                ],
+                "summary": "Create a new opening",
+                "parameters": [
+                    {
+                        "description": "Opening creation data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/formatter.CreateOpeningRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successfully created opening",
+                        "schema": {
+                            "$ref": "#/definitions/formatter.OpeningResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/openings/{id}": {
+            "get": {
+                "description": "Get detailed information about a specific opening by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "openings"
+                ],
+                "summary": "Get opening by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Opening ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved opening",
+                        "schema": {
+                            "$ref": "#/definitions/formatter.OpeningResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed to get opening by id",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Opening with id %d not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "formatter.AnimeResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "formatter.CreateAnimeRequest": {
+            "type": "object",
+            "required": [
+                "title"
+            ],
+            "properties": {
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "formatter.CreateOpeningRequest": {
+            "type": "object",
+            "required": [
+                "anime_id",
+                "singer_id",
+                "type"
+            ],
+            "properties": {
+                "anime_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "order_number": {
+                    "type": "integer"
+                },
+                "singer_id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/model.OpeningType"
+                }
+            }
+        },
+        "formatter.OpeningResponse": {
+            "type": "object",
+            "properties": {
+                "anime_id": {
+                    "description": "Relations",
+                    "type": "integer",
+                    "example": 456
+                },
+                "created_at": {
+                    "description": "Timestamps",
+                    "type": "string",
+                    "example": "2023-01-15T10:30:00Z"
+                },
+                "id": {
+                    "description": "Basic info",
+                    "type": "integer",
+                    "example": 123
+                },
+                "order_number": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "singer_id": {
+                    "type": "integer",
+                    "example": 789
+                },
+                "title": {
+                    "description": "Content info",
+                    "type": "string",
+                    "example": "Guren no Yumiya"
+                },
+                "type": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/model.OpeningType"
+                        }
+                    ],
+                    "example": "opening"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "2023-01-15T10:30:00Z"
+                }
+            }
+        },
+        "model.OpeningType": {
+            "type": "string",
+            "enum": [
+                "opening",
+                "ending",
+                "ost"
+            ],
+            "x-enum-varnames": [
+                "TypeOpening",
+                "TypeEnding",
+                "TypeOst"
+            ]
+        }
+    },
+    "securityDefinitions": {
+        "BasicAuth": {
+            "type": "basic"
+        }
+    }
+}

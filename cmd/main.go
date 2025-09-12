@@ -7,11 +7,26 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgxpool"
+	_ "github.com/openingwiki/wiki/docs"
 	"github.com/openingwiki/wiki/internal/api"
 	"github.com/openingwiki/wiki/internal/config"
 	"github.com/openingwiki/wiki/internal/repository"
 	"github.com/openingwiki/wiki/internal/service"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
+
+// @title           Swagger OpeningWiki
+// @version         1.0
+// @termsOfService  http://swagger.io/terms/
+
+// @license.name  MIT LICENSE
+// @license.url   https://github.com/openingwiki/wiki/blob/main/LICENSE
+
+// @host      localhost:8080
+// @BasePath  /api/v1
+
+// @securityDefinitions.basic  BasicAuth
 
 func main() {
 	cfg := config.Load()
@@ -47,6 +62,7 @@ func main() {
 	// Initialize Gin and register routes
 	r := gin.Default()
 	api.NewRouter(r, animeService, openingService)
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	// Start server
 	log.Printf("Starting server on %s...", cfg.HTTPAddr)
 	if err := r.Run(cfg.HTTPAddr); err != nil {

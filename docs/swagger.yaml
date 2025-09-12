@@ -1,0 +1,191 @@
+basePath: /api/v1
+definitions:
+  formatter.AnimeResponse:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+    type: object
+  formatter.CreateAnimeRequest:
+    properties:
+      title:
+        type: string
+    required:
+    - title
+    type: object
+  formatter.CreateOpeningRequest:
+    properties:
+      anime_id:
+        type: integer
+      id:
+        type: integer
+      order_number:
+        type: integer
+      singer_id:
+        type: integer
+      title:
+        type: string
+      type:
+        $ref: '#/definitions/model.OpeningType'
+    required:
+    - anime_id
+    - singer_id
+    - type
+    type: object
+  formatter.OpeningResponse:
+    properties:
+      anime_id:
+        description: Relations
+        example: 456
+        type: integer
+      created_at:
+        description: Timestamps
+        example: "2023-01-15T10:30:00Z"
+        type: string
+      id:
+        description: Basic info
+        example: 123
+        type: integer
+      order_number:
+        example: 1
+        type: integer
+      singer_id:
+        example: 789
+        type: integer
+      title:
+        description: Content info
+        example: Guren no Yumiya
+        type: string
+      type:
+        allOf:
+        - $ref: '#/definitions/model.OpeningType'
+        example: opening
+      updated_at:
+        example: "2023-01-15T10:30:00Z"
+        type: string
+    type: object
+  model.OpeningType:
+    enum:
+    - opening
+    - ending
+    - ost
+    type: string
+    x-enum-varnames:
+    - TypeOpening
+    - TypeEnding
+    - TypeOst
+host: localhost:8080
+info:
+  contact: {}
+  license:
+    name: MIT LICENSE
+    url: https://github.com/openingwiki/wiki/blob/main/LICENSE
+  termsOfService: http://swagger.io/terms/
+  title: Swagger OpeningWiki
+  version: "1.0"
+paths:
+  /anime:
+    post:
+      consumes:
+      - application/json
+      description: Add a new anime to the database
+      parameters:
+      - description: Anime creation data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/formatter.CreateAnimeRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Successfully created anime
+          schema:
+            $ref: '#/definitions/formatter.AnimeResponse'
+        "400":
+          description: Invalid input data
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new anime
+      tags:
+      - anime
+  /openings:
+    post:
+      consumes:
+      - application/json
+      description: Add a new anime opening theme to the database
+      parameters:
+      - description: Opening creation data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/formatter.CreateOpeningRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Successfully created opening
+          schema:
+            $ref: '#/definitions/formatter.OpeningResponse'
+        "400":
+          description: Invalid input data
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new opening
+      tags:
+      - openings
+  /openings/{id}:
+    get:
+      description: Get detailed information about a specific opening by its ID
+      parameters:
+      - description: Opening ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved opening
+          schema:
+            $ref: '#/definitions/formatter.OpeningResponse'
+        "400":
+          description: Failed to get opening by id
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Opening with id %d not found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get opening by ID
+      tags:
+      - openings
+securityDefinitions:
+  BasicAuth:
+    type: basic
+swagger: "2.0"

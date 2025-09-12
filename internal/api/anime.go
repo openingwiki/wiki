@@ -8,18 +8,33 @@ import (
 	"github.com/openingwiki/wiki/internal/service"
 )
 
+// AnimeHandler handles HTTP requests for anime
 type AnimeHandler struct {
 	service *service.AnimeService
 }
 
+// NewAnimeHandler creates a new AnimeHandler instance
 func NewAnimeHandler(s *service.AnimeService) *AnimeHandler {
+
 	return &AnimeHandler{service: s}
 }
 
+// Register registers anime routes
 func (h *AnimeHandler) Register(r *gin.RouterGroup) {
 	r.POST("/anime", h.createAnime)
 }
 
+// createAnime godoc
+// @Summary Create a new anime
+// @Description Add a new anime to the database
+// @Tags anime
+// @Accept json
+// @Produce json
+// @Param request body formatter.CreateAnimeRequest true "Anime creation data"
+// @Success 201 {object} formatter.AnimeResponse "Successfully created anime"
+// @Failure 400 {object} map[string]interface{} "Invalid input data"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Router /anime [post]
 func (h *AnimeHandler) createAnime(c *gin.Context) {
 	var req formatter.CreateAnimeRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
