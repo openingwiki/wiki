@@ -1,6 +1,6 @@
 basePath: /api/v1
 definitions:
-  formatter.AnimeResponse:
+  github_com_openingwiki_wiki_internal_api_formatter.AnimeResponse:
     properties:
       created_at:
         type: string
@@ -9,14 +9,14 @@ definitions:
       title:
         type: string
     type: object
-  formatter.CreateAnimeRequest:
+  github_com_openingwiki_wiki_internal_api_formatter.CreateAnimeRequest:
     properties:
       title:
         type: string
     required:
     - title
     type: object
-  formatter.CreateOpeningRequest:
+  github_com_openingwiki_wiki_internal_api_formatter.CreateOpeningRequest:
     properties:
       anime_id:
         type: integer
@@ -29,45 +29,34 @@ definitions:
       title:
         type: string
       type:
-        $ref: '#/definitions/model.OpeningType'
+        $ref: '#/definitions/github_com_openingwiki_wiki_internal_model.OpeningType'
     required:
     - anime_id
     - singer_id
     - type
     type: object
-  formatter.OpeningResponse:
+  github_com_openingwiki_wiki_internal_api_formatter.OpeningResponse:
     properties:
       anime_id:
-        description: Relations
-        example: 456
         type: integer
       created_at:
-        description: Timestamps
-        example: "2023-01-15T10:30:00Z"
         type: string
       id:
-        description: Basic info
-        example: 123
         type: integer
       order_number:
-        example: 1
         type: integer
       singer_id:
-        example: 789
         type: integer
       title:
-        description: Content info
-        example: Guren no Yumiya
         type: string
       type:
-        allOf:
-        - $ref: '#/definitions/model.OpeningType'
-        example: opening
-      updated_at:
-        example: "2023-01-15T10:30:00Z"
-        type: string
+        $ref: '#/definitions/github_com_openingwiki_wiki_internal_model.OpeningType'
+    required:
+    - anime_id
+    - singer_id
+    - type
     type: object
-  model.OpeningType:
+  github_com_openingwiki_wiki_internal_model.OpeningType:
     enum:
     - opening
     - ending
@@ -98,14 +87,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/formatter.CreateAnimeRequest'
+          $ref: '#/definitions/github_com_openingwiki_wiki_internal_api_formatter.CreateAnimeRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Successfully created anime
           schema:
-            $ref: '#/definitions/formatter.AnimeResponse'
+            $ref: '#/definitions/github_com_openingwiki_wiki_internal_api_formatter.AnimeResponse'
         "400":
           description: Invalid input data
           schema:
@@ -130,14 +119,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/formatter.CreateOpeningRequest'
+          $ref: '#/definitions/github_com_openingwiki_wiki_internal_api_formatter.CreateOpeningRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Successfully created opening
           schema:
-            $ref: '#/definitions/formatter.OpeningResponse'
+            $ref: '#/definitions/github_com_openingwiki_wiki_internal_api_formatter.OpeningResponse'
         "400":
           description: Invalid input data
           schema:
@@ -166,7 +155,7 @@ paths:
         "200":
           description: Successfully retrieved opening
           schema:
-            $ref: '#/definitions/formatter.OpeningResponse'
+            $ref: '#/definitions/github_com_openingwiki_wiki_internal_api_formatter.OpeningResponse'
         "400":
           description: Failed to get opening by id
           schema:

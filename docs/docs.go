@@ -40,7 +40,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/formatter.CreateAnimeRequest"
+                            "$ref": "#/definitions/github_com_openingwiki_wiki_internal_api_formatter.CreateAnimeRequest"
                         }
                     }
                 ],
@@ -48,7 +48,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Successfully created anime",
                         "schema": {
-                            "$ref": "#/definitions/formatter.AnimeResponse"
+                            "$ref": "#/definitions/github_com_openingwiki_wiki_internal_api_formatter.AnimeResponse"
                         }
                     },
                     "400": {
@@ -88,7 +88,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/formatter.CreateOpeningRequest"
+                            "$ref": "#/definitions/github_com_openingwiki_wiki_internal_api_formatter.CreateOpeningRequest"
                         }
                     }
                 ],
@@ -96,7 +96,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Successfully created opening",
                         "schema": {
-                            "$ref": "#/definitions/formatter.OpeningResponse"
+                            "$ref": "#/definitions/github_com_openingwiki_wiki_internal_api_formatter.OpeningResponse"
                         }
                     },
                     "400": {
@@ -139,7 +139,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Successfully retrieved opening",
                         "schema": {
-                            "$ref": "#/definitions/formatter.OpeningResponse"
+                            "$ref": "#/definitions/github_com_openingwiki_wiki_internal_api_formatter.OpeningResponse"
                         }
                     },
                     "400": {
@@ -168,7 +168,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "formatter.AnimeResponse": {
+        "github_com_openingwiki_wiki_internal_api_formatter.AnimeResponse": {
             "type": "object",
             "properties": {
                 "created_at": {
@@ -182,7 +182,7 @@ const docTemplate = `{
                 }
             }
         },
-        "formatter.CreateAnimeRequest": {
+        "github_com_openingwiki_wiki_internal_api_formatter.CreateAnimeRequest": {
             "type": "object",
             "required": [
                 "title"
@@ -193,7 +193,7 @@ const docTemplate = `{
                 }
             }
         },
-        "formatter.CreateOpeningRequest": {
+        "github_com_openingwiki_wiki_internal_api_formatter.CreateOpeningRequest": {
             "type": "object",
             "required": [
                 "anime_id",
@@ -217,56 +217,42 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "type": {
-                    "$ref": "#/definitions/model.OpeningType"
+                    "$ref": "#/definitions/github_com_openingwiki_wiki_internal_model.OpeningType"
                 }
             }
         },
-        "formatter.OpeningResponse": {
+        "github_com_openingwiki_wiki_internal_api_formatter.OpeningResponse": {
             "type": "object",
+            "required": [
+                "anime_id",
+                "singer_id",
+                "type"
+            ],
             "properties": {
                 "anime_id": {
-                    "description": "Relations",
-                    "type": "integer",
-                    "example": 456
+                    "type": "integer"
                 },
                 "created_at": {
-                    "description": "Timestamps",
-                    "type": "string",
-                    "example": "2023-01-15T10:30:00Z"
+                    "type": "string"
                 },
                 "id": {
-                    "description": "Basic info",
-                    "type": "integer",
-                    "example": 123
+                    "type": "integer"
                 },
                 "order_number": {
-                    "type": "integer",
-                    "example": 1
+                    "type": "integer"
                 },
                 "singer_id": {
-                    "type": "integer",
-                    "example": 789
+                    "type": "integer"
                 },
                 "title": {
-                    "description": "Content info",
-                    "type": "string",
-                    "example": "Guren no Yumiya"
+                    "type": "string"
                 },
                 "type": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/model.OpeningType"
-                        }
-                    ],
-                    "example": "opening"
-                },
-                "updated_at": {
-                    "type": "string",
-                    "example": "2023-01-15T10:30:00Z"
+                    "$ref": "#/definitions/github_com_openingwiki_wiki_internal_model.OpeningType"
                 }
             }
         },
-        "model.OpeningType": {
+        "github_com_openingwiki_wiki_internal_model.OpeningType": {
             "type": "string",
             "enum": [
                 "opening",
