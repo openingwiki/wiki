@@ -1,11 +1,12 @@
 package api
 
 import (
+	"net/http"
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"github.com/openingwiki/wiki/internal/api/formatter"
 	"github.com/openingwiki/wiki/internal/service"
-	"net/http"
-	"strconv"
 )
 
 type OpeningHandler struct {
