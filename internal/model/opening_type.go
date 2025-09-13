@@ -1,7 +1,5 @@
 package model
 
-// OpeningType represents the type of anime theme
-// @enum: opening, ending, ost
 type OpeningType string
 
 const (

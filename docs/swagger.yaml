@@ -66,7 +66,6 @@ definitions:
     - TypeOpening
     - TypeEnding
     - TypeOst
-host: localhost:8080
 info:
   contact: {}
   license:
@@ -157,12 +156,12 @@ paths:
           schema:
             $ref: '#/definitions/github_com_openingwiki_wiki_internal_api_formatter.OpeningResponse'
         "400":
-          description: Failed to get opening by id
+          description: get opening by id
           schema:
             additionalProperties: true
             type: object
         "404":
-          description: Opening with id %d not found
+          description: opening with id %d not found
           schema:
             additionalProperties: true
             type: object

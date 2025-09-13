@@ -143,14 +143,14 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Failed to get opening by id",
+                        "description": "get opening by id",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
                         }
                     },
                     "404": {
-                        "description": "Opening with id %d not found",
+                        "description": "opening with id %d not found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -276,7 +276,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8080",
+	Host:             "",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "Swagger OpeningWiki",

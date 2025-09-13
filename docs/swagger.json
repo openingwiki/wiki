@@ -10,7 +10,6 @@
         },
         "version": "1.0"
     },
-    "host": "localhost:8080",
     "basePath": "/api/v1",
     "paths": {
         "/anime": {
@@ -136,14 +135,14 @@
                         }
                     },
                     "400": {
-                        "description": "Failed to get opening by id",
+                        "description": "get opening by id",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
                         }
                     },
                     "404": {
-                        "description": "Opening with id %d not found",
+                        "description": "opening with id %d not found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true

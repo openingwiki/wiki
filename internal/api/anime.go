@@ -8,18 +8,15 @@ import (
 	"github.com/openingwiki/wiki/internal/service"
 )
 
-// AnimeHandler handles HTTP requests for anime
 type AnimeHandler struct {
 	service *service.AnimeService
 }
 
-// NewAnimeHandler creates a new AnimeHandler instance
 func NewAnimeHandler(s *service.AnimeService) *AnimeHandler {
 
 	return &AnimeHandler{service: s}
 }
 
-// Register registers anime routes
 func (h *AnimeHandler) Register(r *gin.RouterGroup) {
 	r.POST("/anime", h.createAnime)
 }

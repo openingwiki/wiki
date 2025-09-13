@@ -9,17 +9,14 @@ import (
 	"github.com/openingwiki/wiki/internal/service"
 )
 
-// OpeningHandler handles HTTP requests for anime openings
 type OpeningHandler struct {
 	service *service.OpeningService
 }
 
-// NewOpeningHandler creates a new OpeningHandler instance
 func NewOpeningHandler(s *service.OpeningService) *OpeningHandler {
 	return &OpeningHandler{service: s}
 }
 
-// Register registers opening routes
 func (h *OpeningHandler) Register(r *gin.RouterGroup) {
 	openingGroup := r.Group("/openings")
 	openingGroup.POST("", h.createOpening)
@@ -60,8 +57,8 @@ func (h *OpeningHandler) createOpening(c *gin.Context) {
 // @Produce json
 // @Param id path int true "Opening ID"
 // @Success 200 {object} formatter.OpeningResponse "Successfully retrieved opening"
-// @Failure 400 {object} map[string]interface{} "Failed to get opening by id"
-// @Failure 404 {object} map[string]interface{} "Opening with id %d not found"
+// @Failure 400 {object} map[string]interface{} "get opening by id"
+// @Failure 404 {object} map[string]interface{} "opening with id %d not found"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /openings/{id} [get]
 func (h *OpeningHandler) GetOpeningByID(c *gin.Context) {
