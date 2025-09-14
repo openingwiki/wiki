@@ -7,11 +7,23 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgxpool"
+	_ "github.com/openingwiki/wiki/docs"
 	"github.com/openingwiki/wiki/internal/api"
 	"github.com/openingwiki/wiki/internal/config"
 	"github.com/openingwiki/wiki/internal/repository"
 	"github.com/openingwiki/wiki/internal/service"
 )
+
+// @title           Swagger OpeningWiki
+// @version         1.0
+// @termsOfService  http://swagger.io/terms/
+
+// @license.name  MIT LICENSE
+// @license.url   https://github.com/openingwiki/wiki/blob/main/LICENSE
+
+// @BasePath  /api/v1
+
+// @securityDefinitions.basic  BasicAuth
 
 func main() {
 	cfg := config.Load()

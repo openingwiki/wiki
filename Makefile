@@ -26,3 +26,7 @@ test:
 migrate:
 	@echo "Applying migrations..."
 	@$(MIGRATE_UP_SCRIPT)
+
+# === Swagger ===
+swagger:
+	swag init -g cmd/main.go --output ./docs --parseDependency --parseInternal
