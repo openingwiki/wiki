@@ -13,6 +13,7 @@ type AnimeHandler struct {
 }
 
 func NewAnimeHandler(s *service.AnimeService) *AnimeHandler {
+
 	return &AnimeHandler{service: s}
 }
 
@@ -21,6 +22,17 @@ func (h *AnimeHandler) Register(r *gin.RouterGroup) {
 	r.GET("/anime/:id", h.getAnime)
 }
 
+// createAnime godoc
+// @Summary Create a new anime
+// @Description Add a new anime to the database
+// @Tags anime
+// @Accept json
+// @Produce json
+// @Param request body formatter.CreateAnimeRequest true "Anime creation data"
+// @Success 201 {object} formatter.AnimeResponse "Successfully created anime"
+// @Failure 400 {object} map[string]interface{} "Invalid input data"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Router /anime [post]
 func (h *AnimeHandler) createAnime(c *gin.Context) {
 	var req formatter.CreateAnimeRequest
 	if err := c.ShouldBindJSON(&req); err != nil {

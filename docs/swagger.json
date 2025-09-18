@@ -1,0 +1,266 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Swagger OpeningWiki",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {},
+        "license": {
+            "name": "MIT LICENSE",
+            "url": "https://github.com/openingwiki/wiki/blob/main/LICENSE"
+        },
+        "version": "1.0"
+    },
+    "basePath": "/api/v1",
+    "paths": {
+        "/anime": {
+            "post": {
+                "description": "Add a new anime to the database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "anime"
+                ],
+                "summary": "Create a new anime",
+                "parameters": [
+                    {
+                        "description": "Anime creation data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_openingwiki_wiki_internal_api_formatter.CreateAnimeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successfully created anime",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_openingwiki_wiki_internal_api_formatter.AnimeResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/openings": {
+            "post": {
+                "description": "Add a new anime opening theme to the database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "openings"
+                ],
+                "summary": "Create a new opening",
+                "parameters": [
+                    {
+                        "description": "Opening creation data",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_openingwiki_wiki_internal_api_formatter.CreateOpeningRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successfully created opening",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_openingwiki_wiki_internal_api_formatter.OpeningResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/openings/{id}": {
+            "get": {
+                "description": "Get detailed information about a specific opening by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "openings"
+                ],
+                "summary": "Get opening by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Opening ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved opening",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_openingwiki_wiki_internal_api_formatter.OpeningResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "get opening by id",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "opening with id %d not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "github_com_openingwiki_wiki_internal_api_formatter.AnimeResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_openingwiki_wiki_internal_api_formatter.CreateAnimeRequest": {
+            "type": "object",
+            "required": [
+                "title"
+            ],
+            "properties": {
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_openingwiki_wiki_internal_api_formatter.CreateOpeningRequest": {
+            "type": "object",
+            "required": [
+                "anime_id",
+                "singer_id",
+                "type"
+            ],
+            "properties": {
+                "anime_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "order_number": {
+                    "type": "integer"
+                },
+                "singer_id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/github_com_openingwiki_wiki_internal_model.OpeningType"
+                }
+            }
+        },
+        "github_com_openingwiki_wiki_internal_api_formatter.OpeningResponse": {
+            "type": "object",
+            "required": [
+                "anime_id",
+                "singer_id",
+                "type"
+            ],
+            "properties": {
+                "anime_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "order_number": {
+                    "type": "integer"
+                },
+                "singer_id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/github_com_openingwiki_wiki_internal_model.OpeningType"
+                }
+            }
+        },
+        "github_com_openingwiki_wiki_internal_model.OpeningType": {
+            "type": "string",
+            "enum": [
+                "opening",
+                "ending",
+                "ost"
+            ],
+            "x-enum-varnames": [
+                "TypeOpening",
+                "TypeEnding",
+                "TypeOst"
+            ]
+        }
+    },
+    "securityDefinitions": {
+        "BasicAuth": {
+            "type": "basic"
+        }
+    }
+}

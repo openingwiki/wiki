@@ -18,7 +18,8 @@ func NewOpeningService(repo repository.OpeningRepository) *OpeningService {
 	return &OpeningService{repo: repo}
 }
 
-func (s *OpeningService) CreateOpening(ctx context.Context,
+func (s *OpeningService) CreateOpening(
+	ctx context.Context,
 	animeID int64,
 	singerID int64,
 	openingType model.OpeningType,
@@ -26,4 +27,12 @@ func (s *OpeningService) CreateOpening(ctx context.Context,
 	orderNumber int64,
 ) (*model.Opening, error) {
 	return s.repo.CreateOpening(ctx, animeID, singerID, openingType, title, orderNumber)
+}
+
+func (s *OpeningService) GetOpeningByID(ctx context.Context, id int64) (*model.Opening, error) {
+	opening, err := s.repo.GetOpeningByID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	return opening, nil
 }

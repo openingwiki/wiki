@@ -5,4 +5,5 @@ type OpeningType string
 const (
 	TypeOpening OpeningType = "opening"
 	TypeEnding  OpeningType = "ending"
+	TypeOst     OpeningType = "ost"
 )
