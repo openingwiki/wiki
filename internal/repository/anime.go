@@ -2,8 +2,12 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"time"
 
+	"errors"
+
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/openingwiki/wiki/internal/model"
 )
@@ -48,10 +52,15 @@ func (r *PostgresAnimeRepository) GetAnime(ctx context.Context, id int64) (*mode
 	const query = `
 		SELECT * FROM anime WHERE ID = $1
 	`
-
 	var anime model.Anime
-	if err := r.pool.QueryRow(ctx, query, id).Scan(&anime.ID, &anime.Title, &anime.CreatedAt); err != nil {
-		return nil, err
+
+	err := r.pool.QueryRow(ctx, query, id).Scan(&anime.ID, &anime.Title, &anime.CreatedAt)
+
+	if err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			return nil, fmt.Errorf("opening with id %d not found", id)
+		}
+		return nil, fmt.Errorf("get opening by id %d: %w", id, err)
 	}
 
 	return &anime, nil

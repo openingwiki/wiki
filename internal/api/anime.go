@@ -18,7 +18,7 @@ func NewAnimeHandler(s *service.AnimeService) *AnimeHandler {
 
 func (h *AnimeHandler) Register(r *gin.RouterGroup) {
 	r.POST("/anime", h.createAnime)
-	r.GET("/anime", h.getAnime)
+	r.GET("/anime/:id", h.getAnime)
 }
 
 func (h *AnimeHandler) createAnime(c *gin.Context) {
