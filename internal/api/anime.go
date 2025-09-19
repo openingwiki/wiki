@@ -1,7 +1,10 @@
 package api
 
 import (
+	"database/sql"
+	"errors"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/openingwiki/wiki/internal/api/formatter"
@@ -19,6 +22,7 @@ func NewAnimeHandler(s *service.AnimeService) *AnimeHandler {
 
 func (h *AnimeHandler) Register(r *gin.RouterGroup) {
 	r.POST("/anime", h.createAnime)
+	r.GET("/anime/:id", h.getAnime)
 }
 
 // createAnime godoc
@@ -46,4 +50,39 @@ func (h *AnimeHandler) createAnime(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, formatter.NewAnimeResponseFromDomain(anime))
+}
+
+// getAnime godoc
+// @Summary Get anime by id
+// @Description Get anime by id from the database
+// @Tags anime
+// @Accept json
+// @Produce json
+// @Param id path int true "Anime id"
+// @Success 200 {object} formatter.AnimeResponse "Successfully retrieved anime"
+// @Failure 400 {object} map[string]interface{} "Invalid anime id"
+// @Failure 404 {object} map[string]interface{} "Anime not found"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Router /anime/{id} [get]
+func (h *AnimeHandler) getAnime(c *gin.Context) {
+
+	idParam := c.Param("id")
+
+	id, err := strconv.ParseInt(idParam, 10, 64)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid anime id"})
+		return
+	}
+
+	anime, err := h.service.GetAnime(c.Request.Context(), id)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Anime not found"})
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, formatter.NewAnimeResponseFromDomain(anime))
 }
