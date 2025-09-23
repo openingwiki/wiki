@@ -60,6 +60,56 @@
                 }
             }
         },
+        "/anime/{id}": {
+            "get": {
+                "description": "Get detailed information about a specific anime by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "anime"
+                ],
+                "summary": "Get anime by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Anime ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved anime",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_openingwiki_wiki_internal_api_formatter.AnimeResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid anime id",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Anime not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/openings": {
             "post": {
                 "description": "Add a new anime opening theme to the database",

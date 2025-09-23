@@ -2,14 +2,19 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"time"
 
+	"errors"
+
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/openingwiki/wiki/internal/model"
 )
 
 type AnimeRepository interface {
 	CreateAnime(ctx context.Context, title string) (*model.Anime, error)
+	GetAnime(ctx context.Context, id int64) (*model.Anime, error)
 }
 
 type PostgresAnimeRepository struct {
@@ -41,4 +46,23 @@ func (r *PostgresAnimeRepository) CreateAnime(ctx context.Context, title string)
 		Title:     title,
 		CreatedAt: created,
 	}, nil
+}
+
+func (r *PostgresAnimeRepository) GetAnime(ctx context.Context, id int64) (*model.Anime, error) {
+	const query = `
+		SELECT * FROM anime WHERE ID = $1
+	`
+	var anime model.Anime
+
+	err := r.pool.QueryRow(ctx, query, id).Scan(&anime.ID, &anime.Title, &anime.CreatedAt)
+
+	if err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			return nil, fmt.Errorf("%w: anime with id %d not found", ErrNotFound, id)
+		}
+		return nil, fmt.Errorf("get anime by id %d: %w", id, err)
+	}
+
+	return &anime, nil
+
 }
