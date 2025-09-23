@@ -107,6 +107,40 @@ paths:
       summary: Create a new anime
       tags:
       - anime
+  /anime/{id}:
+    get:
+      description: Get detailed information about a specific anime by its ID
+      parameters:
+      - description: Anime ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved anime
+          schema:
+            $ref: '#/definitions/github_com_openingwiki_wiki_internal_api_formatter.AnimeResponse'
+        "400":
+          description: Invalid anime id
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Anime not found
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get anime by ID
+      tags:
+      - anime
   /openings:
     post:
       consumes:
