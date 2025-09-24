@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"errors"
 
 	"github.com/openingwiki/wiki/internal/model"
 	"github.com/openingwiki/wiki/internal/repository"
