@@ -12,9 +12,11 @@ func NewRouter(
 	r *gin.Engine,
 	animeService *service.AnimeService,
 	openingService *service.OpeningService,
+	singerService *service.SingerService,
 ) {
 	v1 := r.Group("/api/v1")
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	NewAnimeHandler(animeService).Register(v1)
 	NewOpeningHandler(openingService).Register(v1)
+	NewSingerHandler(singerService).Register(v1)
 }
