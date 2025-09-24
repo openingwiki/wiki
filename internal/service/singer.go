@@ -8,8 +8,6 @@ import (
 	"github.com/openingwiki/wiki/internal/repository"
 )
 
-var ErrSingerExists = errors.New("singer already exists")
-
 type SingerService struct {
 	repo repository.SingerRepository
 }

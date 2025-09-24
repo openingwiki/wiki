@@ -22,7 +22,7 @@ func NewPostgresSingerRepository(pool *pgxpool.Pool) *PostgresSingerRepository {
 
 func (r *PostgresSingerRepository) CreateSinger(ctx context.Context, name string) (*model.Singer, error) {
 	const query = `
-		INSERT INTO singers (name, created_at)
+		INSERT INTO singers (name)
 		VALUES ($1, NOW())
 		RETURING id, created_at
 	`
