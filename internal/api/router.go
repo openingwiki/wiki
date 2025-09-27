@@ -15,7 +15,7 @@ func NewRouter(
 	singerService *service.SingerService,
 ) {
 	v1 := r.Group("/api/v1")
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	v1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	NewAnimeHandler(animeService).Register(v1)
 	NewOpeningHandler(openingService).Register(v1)
 	NewSingerHandler(singerService).Register(v1)

@@ -21,6 +21,7 @@ type OpeningRepository interface {
 		orderNumber int64,
 	) (*model.Opening, error)
 	GetOpeningByID(ctx context.Context, openingID int64) (*model.Opening, error)
+	SearchOpeningByTitle(ctx context.Context, title string) ([]model.OpeningSearchItem, error)
 }
 
 type PostgresOpeningRepository struct {
@@ -132,4 +133,41 @@ func (r *PostgresOpeningRepository) GetOpeningByID(ctx context.Context, id int64
 		OrderNumber: oOrder,
 		CreatedAt:   createdAt,
 	}, nil
+}
+
+func (r *PostgresOpeningRepository) SearchOpeningByTitle(ctx context.Context, title string) ([]model.OpeningSearchItem, error) {
+	const query = `
+	SELECT id,
+           title
+	FROM openings
+	WHERE lower(public.unaccent(title)) % lower(public.unaccent($1))
+	ORDER BY title
+	LIMIT 20;
+	`
+
+	rows, err := r.pool.Query(
+		ctx,
+		query,
+		title,
+	)
+	if err != nil {
+		return nil, fmt.Errorf("search openings by title: %w", err)
+	}
+	var out []model.OpeningSearchItem
+
+	for rows.Next() {
+		var it model.OpeningSearchItem
+		if err := rows.Scan(&it.ID, &it.Title); err != nil {
+			rows.Close()
+			return nil, fmt.Errorf("scan search row: %w", err)
+		}
+		out = append(out, it)
+	}
+
+	if err := rows.Err(); err != nil {
+		rows.Close()
+		return nil, fmt.Errorf("rows: %w", err)
+	}
+	rows.Close()
+	return out, nil
 }
