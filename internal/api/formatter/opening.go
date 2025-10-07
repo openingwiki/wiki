@@ -40,9 +40,3 @@ func CreateOpeningResponseFromDomain(m *model.Opening) *OpeningResponse {
 		CreatedAt:   m.CreatedAt,
 	}
 }
-
-func SearchOpening(items []model.OpeningPreview) *OpeningResponses {
-	return &OpeningResponses{
-		{Items: items},
-	}
-}

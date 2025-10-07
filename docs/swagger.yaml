@@ -56,16 +56,14 @@ definitions:
     - singer_id
     - type
     type: object
-  github_com_openingwiki_wiki_internal_api_formatter.SearchResponse:
+  github_com_openingwiki_wiki_internal_api_formatter.OpeningSearchItem:
     properties:
       items:
         items:
-          $ref: '#/definitions/github_com_openingwiki_wiki_internal_model.OpeningSearchItem'
+          $ref: '#/definitions/github_com_openingwiki_wiki_internal_model.OpeningPreview'
         type: array
-      title:
-        type: string
     type: object
-  github_com_openingwiki_wiki_internal_model.OpeningSearchItem:
+  github_com_openingwiki_wiki_internal_model.OpeningPreview:
     properties:
       id:
         format: int64
@@ -142,7 +140,7 @@ paths:
         "201":
           description: Successfully created opening
           schema:
-            $ref: '#/definitions/github_com_openingwiki_wiki_internal_api_formatter.OpeningResponse'
+            $ref: '#/definitions/github_com_openingwiki_wiki_internal_api_formatter.OpeningSearchItem'
         "400":
           description: Invalid input data
           schema:
@@ -205,7 +203,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/github_com_openingwiki_wiki_internal_api_formatter.SearchResponse'
+            $ref: '#/definitions/github_com_openingwiki_wiki_internal_api_formatter.OpeningSearchItem'
         "400":
           description: query param 'title' is required
           schema:

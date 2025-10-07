@@ -96,7 +96,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Successfully created opening",
                         "schema": {
-                            "$ref": "#/definitions/github_com_openingwiki_wiki_internal_api_formatter.OpeningResponse"
+                            "$ref": "#/definitions/github_com_openingwiki_wiki_internal_api_formatter.OpeningSearchItem"
                         }
                     },
                     "400": {
@@ -139,7 +139,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/github_com_openingwiki_wiki_internal_api_formatter.SearchResponse"
+                            "$ref": "#/definitions/github_com_openingwiki_wiki_internal_api_formatter.OpeningSearchItem"
                         }
                     },
                     "400": {
@@ -295,21 +295,18 @@ const docTemplate = `{
                 }
             }
         },
-        "github_com_openingwiki_wiki_internal_api_formatter.SearchResponse": {
+        "github_com_openingwiki_wiki_internal_api_formatter.OpeningSearchItem": {
             "type": "object",
             "properties": {
                 "items": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_openingwiki_wiki_internal_model.OpeningSearchItem"
+                        "$ref": "#/definitions/github_com_openingwiki_wiki_internal_model.OpeningPreview"
                     }
-                },
-                "title": {
-                    "type": "string"
                 }
             }
         },
-        "github_com_openingwiki_wiki_internal_model.OpeningSearchItem": {
+        "github_com_openingwiki_wiki_internal_model.OpeningPreview": {
             "type": "object",
             "properties": {
                 "id": {

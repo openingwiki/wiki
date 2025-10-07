@@ -32,7 +32,7 @@ func (h *OpeningHandler) Register(r *gin.RouterGroup) {
 // @Accept json
 // @Produce json
 // @Param request body formatter.CreateOpeningRequest true "Opening creation data"
-// @Success 201 {object} formatter.OpeningResponse "Successfully created opening"
+// @Success 201 {object} formatter.OpeningSearchItem "Successfully created opening"
 // @Failure 400 {object} map[string]interface{} "Invalid input data"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /openings [post]
@@ -86,7 +86,7 @@ func (h *OpeningHandler) GetOpeningByID(c *gin.Context) {
 // @Tags openings
 // @Produce json
 // @Param title query string true "Search text"
-// @Success 200 {object} formatter.SearchResponse
+// @Success 200 {object} formatter.OpeningSearchItem
 // @Failure 400 {object} map[string]interface{} "query param 'title' is required"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /openings/search [get]
