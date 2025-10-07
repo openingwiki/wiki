@@ -23,7 +23,6 @@ func (h *OpeningHandler) Register(r *gin.RouterGroup) {
 	openingGroup.POST("", h.createOpening)
 	openingGroup.GET("/search", h.SearchOpeningByTitle)
 	openingGroup.GET("/:id", h.GetOpeningByID)
-
 }
 
 // CreateOpening godoc
