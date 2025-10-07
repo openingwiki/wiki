@@ -16,7 +16,6 @@ type AnimeHandler struct {
 }
 
 func NewAnimeHandler(s *service.AnimeService) *AnimeHandler {
-
 	return &AnimeHandler{service: s}
 }
 

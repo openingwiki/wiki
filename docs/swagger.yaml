@@ -56,6 +56,21 @@ definitions:
     - singer_id
     - type
     type: object
+  github_com_openingwiki_wiki_internal_api_formatter.OpeningSearchItem:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/github_com_openingwiki_wiki_internal_model.OpeningPreview'
+        type: array
+    type: object
+  github_com_openingwiki_wiki_internal_model.OpeningPreview:
+    properties:
+      id:
+        format: int64
+        type: integer
+      title:
+        type: string
+    type: object
   github_com_openingwiki_wiki_internal_model.OpeningType:
     enum:
     - opening
@@ -159,7 +174,7 @@ paths:
         "201":
           description: Successfully created opening
           schema:
-            $ref: '#/definitions/github_com_openingwiki_wiki_internal_api_formatter.OpeningResponse'
+            $ref: '#/definitions/github_com_openingwiki_wiki_internal_api_formatter.OpeningSearchItem'
         "400":
           description: Invalid input data
           schema:
@@ -205,6 +220,35 @@ paths:
             additionalProperties: true
             type: object
       summary: Get opening by ID
+      tags:
+      - openings
+  /openings/search:
+    get:
+      description: Search openings by its title(no need to write full title)
+      parameters:
+      - description: Search text
+        in: query
+        name: title
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_openingwiki_wiki_internal_api_formatter.OpeningSearchItem'
+        "400":
+          description: query param 'title' is required
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Search opening by title
       tags:
       - openings
 securityDefinitions:

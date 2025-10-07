@@ -3,6 +3,7 @@ package api
 import (
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/openingwiki/wiki/internal/api/formatter"
@@ -20,6 +21,7 @@ func NewOpeningHandler(s *service.OpeningService) *OpeningHandler {
 func (h *OpeningHandler) Register(r *gin.RouterGroup) {
 	openingGroup := r.Group("/openings")
 	openingGroup.POST("", h.createOpening)
+	openingGroup.GET("/search", h.SearchOpeningByTitle)
 	openingGroup.GET("/:id", h.GetOpeningByID)
 }
 
@@ -30,7 +32,7 @@ func (h *OpeningHandler) Register(r *gin.RouterGroup) {
 // @Accept json
 // @Produce json
 // @Param request body formatter.CreateOpeningRequest true "Opening creation data"
-// @Success 201 {object} formatter.OpeningResponse "Successfully created opening"
+// @Success 201 {object} formatter.OpeningSearchItem "Successfully created opening"
 // @Failure 400 {object} map[string]interface{} "Invalid input data"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
 // @Router /openings [post]
@@ -76,4 +78,40 @@ func (h *OpeningHandler) GetOpeningByID(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, formatter.CreateOpeningResponseFromDomain(opening))
+}
+
+// SearchOpeningByTitle godoc
+// @Summary Search opening by title
+// @Description Search openings by its title(no need to write full title)
+// @Tags openings
+// @Produce json
+// @Param title query string true "Search text"
+// @Success 200 {object} formatter.OpeningSearchItem
+// @Failure 400 {object} map[string]interface{} "query param 'title' is required"
+// @Failure 500 {object} map[string]interface{} "Internal server error"
+// @Router /openings/search [get]
+func (h *OpeningHandler) SearchOpeningByTitle(c *gin.Context) {
+	title := strings.TrimSpace(c.Query("title"))
+	if title == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "query param 'title' is required"})
+		return
+	}
+	limit, err := strconv.Atoi(strings.TrimSpace(c.Query("limit")))
+	if err != nil {
+		limit = 10
+	}
+	offset, err := strconv.Atoi(strings.TrimSpace(c.Query("offset")))
+	if err != nil {
+		offset = 0
+	}
+	items, err := h.service.SearchOpeningByTitle(c.Request.Context(), title, limit, offset)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "search failed"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"items": items,
+		"title": title,
+	})
 }

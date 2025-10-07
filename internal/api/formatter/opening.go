@@ -24,6 +24,10 @@ type OpeningResponse struct {
 	OrderNumber int64             `json:"order_number"`
 	CreatedAt   time.Time         `json:"created_at"`
 }
+type OpeningSearchItem struct {
+	Items []model.OpeningPreview `json:"items"`
+}
+type OpeningResponses []OpeningSearchItem
 
 func CreateOpeningResponseFromDomain(m *model.Opening) *OpeningResponse {
 	return &OpeningResponse{

@@ -96,11 +96,54 @@ const docTemplate = `{
                     "201": {
                         "description": "Successfully created opening",
                         "schema": {
-                            "$ref": "#/definitions/github_com_openingwiki_wiki_internal_api_formatter.OpeningResponse"
+                            "$ref": "#/definitions/github_com_openingwiki_wiki_internal_api_formatter.OpeningSearchItem"
                         }
                     },
                     "400": {
                         "description": "Invalid input data",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/openings/search": {
+            "get": {
+                "description": "Search openings by its title(no need to write full title)",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "openings"
+                ],
+                "summary": "Search opening by title",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Search text",
+                        "name": "title",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_openingwiki_wiki_internal_api_formatter.OpeningSearchItem"
+                        }
+                    },
+                    "400": {
+                        "description": "query param 'title' is required",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -249,6 +292,29 @@ const docTemplate = `{
                 },
                 "type": {
                     "$ref": "#/definitions/github_com_openingwiki_wiki_internal_model.OpeningType"
+                }
+            }
+        },
+        "github_com_openingwiki_wiki_internal_api_formatter.OpeningSearchItem": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_openingwiki_wiki_internal_model.OpeningPreview"
+                    }
+                }
+            }
+        },
+        "github_com_openingwiki_wiki_internal_model.OpeningPreview": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "title": {
+                    "type": "string"
                 }
             }
         },

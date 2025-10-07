@@ -36,3 +36,11 @@ func (s *OpeningService) GetOpeningByID(ctx context.Context, id int64) (*model.O
 	}
 	return opening, nil
 }
+
+func (s *OpeningService) SearchOpeningByTitle(ctx context.Context, title string, limit, offset int) ([]model.OpeningPreview, error) {
+	opening, err := s.repo.SearchOpeningByTitle(ctx, title, limit, offset)
+	if err != nil {
+		return nil, err
+	}
+	return opening, nil
+}
