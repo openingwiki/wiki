@@ -97,8 +97,15 @@ func (h *OpeningHandler) SearchOpeningByTitle(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "query param 'title' is required"})
 		return
 	}
-
-	items, err := h.service.SearchOpeningByTitle(c.Request.Context(), title)
+	limit, err := strconv.Atoi(strings.TrimSpace(c.Query("limit")))
+	if err != nil {
+		limit = 10
+	}
+	offset, err := strconv.Atoi(strings.TrimSpace(c.Query("offset")))
+	if err != nil {
+		offset = 0
+	}
+	items, err := h.service.SearchOpeningByTitle(c.Request.Context(), title, limit, offset)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "search failed"})
 		return

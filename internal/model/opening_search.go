@@ -1,6 +1,6 @@
 package model
 
-type OpeningSearchItem struct {
+type OpeningPreview struct {
 	ID    int64
 	Title string
 }
